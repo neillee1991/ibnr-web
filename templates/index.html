@@ -18,7 +18,6 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-
     <title></title>
 </head>
 
@@ -125,45 +124,215 @@
         <h1>CAL</h1>
     </div>
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title">
-                        基本设置
-                    </h2>
-                </div>
-                <div class="panel-body">
-                    <div class="input-group">
-                        <span class="input-group-addon" >起始月（YYYY年MM月）</span>
-                        <input type="text" class="form-control" id="date_start" aria-describedby="basic-addon3">
-                    </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon" >终止月（YYYY年MM月）</span>
-                        <input type="text" class="form-control" id="date_end" aria-describedby="basic-addon3">
-                    </div>
-<br>
-                    <button id="btn_cal1">计算件数三角形</button>
-                </div>
 
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    基本设置
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon">起始月（YYYY年MM月）</span>
+                    <input type="text" class="form-control" id="date_start" aria-describedby="basic-addon3">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">终止月（YYYY年MM月）</span>
+                    <input type="text" class="form-control" id="date_end" aria-describedby="basic-addon3">
+                </div>
+                <br>
+                <button id="btn_cal1">计算三角形</button>
             </div>
 
 
-
         </div>
-
-        <div class="col-md-8">
-
-
-
-        </div>
-
-
-
     </div>
 
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    三角形
+                </h2>
+            </div>
+            <div class="panel-body" id="origin_triangle">
+            </div>
+        </div>
+    </div>
+</div>
 
+
+<div class="container" style="width:60%;">
+    <div class="jumbotron">
+        <h1>计算进展因子</h1>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    设置
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon">件数窗口长度</span>
+                    <input type="text" class="form-control" id="cfactor_month_num" aria-describedby="basic-addon3"
+                           value="4">
+
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">费用窗口长度</span>
+                    <input type="text" class="form-control" id="ffactor_month_num" aria-describedby="basic-addon3"
+                           value="4">
+
+                </div>
+                <p>在各个进展月上计算进展因子时使用的月的个数,如果最后几个进展月不满足窗口条件，补充nan；如果为None,则用所有数据计算</p>
+                <button id="btn_cal_fact">计算进展因子</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    原始进展因子
+                </h2>
+            </div>
+            <div class="panel-body" id="ori_factor">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="width:60%;">
+    <div class="jumbotron">
+        <h1>调整进展因子</h1>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    设置
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon">件数进展因子</span>
+                    <input type="text" class="form-control" id="cfactor_adj" aria-describedby="basic-addon3">
+
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">费用进展因子</span>
+                    <input type="text" class="form-control" id="ffactor_adj" aria-describedby="basic-addon3">
+
+                </div>
+                <p>可以从上面表格复制过来。。。</p>
+                <button id="btn_cal_res">计算估计的三角形和IBNR</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    结果
+                </h2>
+            </div>
+            <div class="panel-body" id="result">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="width:60%;">
+    <div class="jumbotron">
+        <h1>平均费用算法</h1>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    设置
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon">平均费用窗口长度</span>
+                    <input type="text" class="form-control" id="average_month_num" aria-describedby="basic-addon3"
+                           value="4">
+
+                </div>
+                <p>在各个进展月上计算平均费用使用的月的个数,如果最后几个进展月不满足窗口条件，补充nan；如果为None,则用所有数据计算</p>
+                <button id="btn_average_fee">计算平均费用</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    结果
+                </h2>
+            </div>
+            <div class="panel-body" id="result_averagefee">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="width:60%;">
+    <div class="jumbotron">
+        <h1>平均费用算法</h1>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    调整平均费用
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon">调整平均费用</span>
+                    <input type="text" class="form-control" id="average_fee_adj" aria-describedby="basic-addon3"
+                           value="4">
+
+                </div>
+                <button id="btn_cal_res_final">计算结果</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    结果
+                </h2>
+            </div>
+            <div class="panel-body" id="result_af_final">
+
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -220,25 +389,137 @@
     });
 
     $('#btn_cal1').click(function () {
-        var filename=document.upload.file.files[0].name;
-        var date_start= $('#date_start').val();
-        var date_end=$('#date_end').val();
-        console.log({'filename':filename,'date_start':date_start,'date_end':date_end});
+        var filename = document.upload.file.files[0].name;
+        var date_start = $('#date_start').val();
+        var date_end = $('#date_end').val();
+
+        var data = JSON.stringify({"filename": filename, "date_start": date_start, "date_end": date_end});
         $.ajax(
             {
                 url: '/caltri',
                 type: 'POST',
-                dataType: 'json',
-                contentType : "application/json",
-                data:{'filename':filename,'date_start':date_start,'date_end':date_end},
+                dataType: 'html',
+                contentType: "application/json",
+                data: data,
                 contentType: false,
-                processData: false
-            }
-        )
+                processData: false,
+                success: function (res) {
+                    $('#origin_triangle').html(res)
+
+                }
+            });
+
+    });
+
+    $('#btn_cal_fact').click(function () {
+        var filename = document.upload.file.files[0].name;
+        var date_start = $('#date_start').val();
+        var date_end = $('#date_end').val();
+        var cfactor_month_num = $('#cfactor_month_num').val();
+        var ffactor_month_num = $('#ffactor_month_num').val();
+        var data = JSON.stringify({
+            "filename": filename, "date_start": date_start, "date_end": date_end,
+            "cfactor_month_num": cfactor_month_num, "ffactor_month_num": ffactor_month_num
+        });
+        $.ajax(
+            {
+                url: '/calfactor',
+                type: 'POST',
+                dataType: 'html',
+                contentType: "application/json",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#ori_factor').html(res)
+                }
+            });
+
+    });
+
+    $('#btn_cal_res').click(function () {
+        var filename = document.upload.file.files[0].name;
+        var date_start = $('#date_start').val();
+        var date_end = $('#date_end').val();
+        var cfactor_month_num = $('#cfactor_month_num').val();
+        var ffactor_month_num = $('#ffactor_month_num').val();
+        var cfactor_adj = $('#cfactor_adj').val();
+        var ffactor_adj = $('#ffactor_adj').val();
+
+        var data = JSON.stringify({
+            "filename": filename, "date_start": date_start, "date_end": date_end,
+            "cfactor_adj": cfactor_adj, "ffactor_adj": ffactor_adj
+        });
+
+        $.ajax(
+            {
+                url: '/calres',
+                type: 'POST',
+                dataType: 'html',
+                contentType: "application/json",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#result').html(res)
+                }
+            });
+
+    });
+
+    $('#btn_average_fee').click(function () {
+        var filename = document.upload.file.files[0].name;
+        var date_start = $('#date_start').val();
+        var date_end = $('#date_end').val();
+        var af_month_num = $('#average_month_num').val();
+
+        var data = JSON.stringify({
+            "filename": filename, "date_start": date_start, "date_end": date_end,
+            "af_month_num": af_month_num
+        });
+        $.ajax(
+            {
+                url: '/method2',
+                type: 'POST',
+                dataType: 'html',
+                contentType: "application/json",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#result_averagefee').html(res)
+                }
+            });
 
     });
 
 
+    $('#btn_cal_res_final').click(function () {
+        var filename = document.upload.file.files[0].name;
+        var date_start = $('#date_start').val();
+        var date_end = $('#date_end').val();
+        var average_fee_adj = $('#average_fee_adj').val();
+        var cfactor_adj = $('#cfactor_adj').val();
+
+        var data = JSON.stringify({
+            "filename": filename, "date_start": date_start, "date_end": date_end,
+            "average_fee_adj": average_fee_adj, "cfactor_adj": cfactor_adj
+        });
+        $.ajax(
+            {
+                url: '/method2res',
+                type: 'POST',
+                dataType: 'html',
+                contentType: "application/json",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#result_af_final').html(res)
+                }
+            });
+
+    });
 
 
 </script>
