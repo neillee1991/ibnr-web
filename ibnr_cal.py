@@ -201,10 +201,10 @@ def method_2_res(local_path, start_date, end_date, cfactor_adj, average_fee_adj)
     count_ibnr = get_ibnr(est_acc_ct)
 
     ret_count_ibnr = DataFrame([count_ibnr], columns=range(len(count_ibnr)),
-                               index=['件数']).to_html(header="true", table_id="ret_count_ibnr",
+                               index=['件数IBNR']).to_html(header="true", table_id="ret_count_ibnr",
                                                      classes='table table-condensed', float_format='%.4f')
     ret_fee_ibnr = DataFrame([fee_ibnr], columns=range(len(fee_ibnr)),
-                             index=['费用']).to_html(header="true", table_id="ret_fee_ibnr",
+                             index=['费用IBNR']).to_html(header="true", table_id="ret_fee_ibnr",
                                                    classes='table table-condensed', float_format='%.4f')
     ret_est_fee_triangle = est_fee_triangle.to_html(header="true", table_id="ret_est_fee_triangle",
                                                     classes='table table-condensed', float_format='%.0f')
