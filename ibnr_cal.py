@@ -1,6 +1,14 @@
 import pandas as pd
 from pandas import DataFrame
 
+def table_beaty(html,table_name):
+
+    new_html=html.replace("<table border=\"1\" class=\"dataframe table table-condensed\"",
+                 "<table class=\"table table-bordered\" style=\"text-align:center;\"")
+    new_html=new_html.replace('acc_close',table_name)
+    new_html=new_html.replace('<th>','<th style=\"text-align:center;\">')
+    return new_html
+
 
 def read_data(path):
     if path.split(".")[-1] in ['xlsx', 'xls']:
@@ -48,8 +56,12 @@ def cal_tri(local_path, start_date, end_date):
     acc_ct_html = acc_ct.to_html(header="true", table_id="acc_ct", classes='table table-condensed', float_format='%.0f')
     ft_html = ft.to_html(header="true", table_id="ft", classes='table table-condensed', float_format='%.0f')
     acc_ft_html = acc_ft.to_html(header="true", table_id="acc_ft", classes='table table-condensed', float_format='%.0f')
+    print(table_beaty(ct_html,"件数"))
 
-    tables = [ct_html, acc_ct_html, ft_html, acc_ft_html]
+    tables = [table_beaty(ct_html,"件数"),
+              table_beaty(acc_ct_html,"累积件数"),
+              table_beaty(ft_html,"费用"),
+              table_beaty(acc_ft_html,"累积费用")]
     return tables
 
 
@@ -90,7 +102,8 @@ def cal_factor(local_path, start_date, end_date, cfactor_month_num, ffactor_mont
                                                                                              classes='table table-condensed',
                                                                                              float_format='%.4f')
 
-    tables = [ret_c_factor, ret_f_factor]
+    tables = [table_beaty(ret_c_factor,"件数逐月"),
+              table_beaty(ret_f_factor,"费用逐月")]
     return tables
 
 
@@ -131,7 +144,12 @@ def cal_res(local_path, start_date, end_date, cfactor_adj, ffactor_adj):
     est_acc_ft_html = est_acc_ft.to_html(header="true", table_id="est_acc_ft", classes='table table-condensed',
                                          float_format='%.0f')
 
-    tables = [ret_count_ibnr, ret_fee_ibnr, est_ct_html, est_acc_ct_html, est_ft_html, est_acc_ft_html]
+    tables = [table_beaty(ret_count_ibnr, "件数IBNR"),
+              table_beaty(ret_fee_ibnr, "费用IBNR"),
+              table_beaty(est_ct_html, "估计件数"),
+              table_beaty(est_acc_ct_html, "估计累积件数"),
+              table_beaty(est_ft_html, "估计费用"),
+              table_beaty(est_acc_ft_html,"估计累积费用")]
     return tables
 
 
@@ -164,7 +182,8 @@ def method_2(local_path, start_date, end_date, af_month_num):
                                                              table_id="average_fee_triangle_html",
                                                              classes='table table-condensed',
                                                              float_format='%.0f')
-    tables = [average_fee_html, average_fee_triangle_html]
+    tables = [table_beaty(average_fee_html, "平均费用"),
+              table_beaty(average_fee_triangle_html,"各月平均费用")]
     return tables
 
 
@@ -183,12 +202,12 @@ def method_2_res(local_path, start_date, end_date, cfactor_adj, average_fee_adj)
     _, ft = get_triangle(df, 'occur_month', 'acc_close', 'pay_amnt', sum)
     acc_ct = get_acc_triangle(ct)
 
-    ct_f = list(map(lambda x: 1 if x in ['', 'None', 'none', 'NONE'] else float(x), cfactor_adj.split('\t')))
+    ct_f = list(map(lambda x: 1 if x in ['', 'None', 'none', 'NONE','NaN'] else float(x), cfactor_adj.split('\t')))
 
     f_list = average_fee_adj.split('\t')
     af_adj = []
     for i in range(len(f_list)):
-        if f_list[i] in ['', 'None', 'none', 'NONE']:
+        if f_list[i] in ['', 'None', 'none', 'NONE','NaN']:
             af_adj.append(max(af_adj[:i]))
         else:
             af_adj.append(float(f_list[i]))
@@ -211,7 +230,10 @@ def method_2_res(local_path, start_date, end_date, cfactor_adj, average_fee_adj)
     ret_est_acc_fee_trianglee = est_acc_fee_triangle.to_html(header="true", table_id="ret_est_fee_triangle",
                                                              classes='table table-condensed', float_format='%.0f')
 
-    tables = [ret_count_ibnr, ret_fee_ibnr, ret_est_fee_triangle, ret_est_acc_fee_trianglee]
+    tables = [table_beaty(ret_count_ibnr, "件数IBNR"),
+              table_beaty(ret_fee_ibnr, "费用IBNR"),
+              table_beaty(ret_est_fee_triangle,"估计费用"),
+              table_beaty(ret_est_acc_fee_trianglee,"估计累积费用")]
     return tables
 
 
@@ -326,7 +348,7 @@ def get_average_fee(count_triangle, fee_triangle, fee_month_num=None):
                 i].mean()
             average_fee.append(s)
 
-    average_fee += [None for _ in range(fee_month_num)]
+        average_fee += [None for _ in range(fee_month_num)]
     return average_fee, average_fee_triangle
 
 

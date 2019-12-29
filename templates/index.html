@@ -5,16 +5,15 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
 
     <script type="text/javascript" src="\static\jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="\static\bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+{#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"#}
+{#    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+{#            crossorigin="anonymous"></script>#}
 
 
     <script type="text/javascript" src="\static\layer\layer\layer.min.js"></script>
@@ -26,8 +25,8 @@
 
 
 <div class="container" style="width:70%;">
-    <div class="jumbotron ">
-        <h1>一个算IBNR的网站</h1>
+    <div class="jumbotron " style="background-color:#337ab7">
+        <h1 style="color:#ffffff">一个算IBNR的网站</h1>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -122,10 +121,9 @@
     </div>
 </div>
 
-
 <div class="container" style="width:70%;">
-    <div class="jumbotron">
-        <h1>三角形</h1>
+    <div class="jumbotron " style="background-color:#337ab7">
+        <h1 style="color:#ffffff">三角形</h1>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -151,7 +149,7 @@
                         <p>起始月<strong><=</strong>OCCUR_DATE<strong><=</strong>终止月</p>
                     </div>
 
-                    <button id="btn_cal1" type="button"  class="btn btn-primary">计算三角形</button>
+                    <button id="btn_cal1" type="button"  class="btn btn-primary" style="float:right">计算三角形</button>
                 </div>
 
 
@@ -164,7 +162,7 @@
                         三角形
                     </h2>
                 </div>
-                <div class="panel-body" id="origin_triangle">
+                <div class="panel-body" id="origin_triangle" style=" overflow-x:auto">
                 </div>
             </div>
         </div>
@@ -173,8 +171,8 @@
 
 
 <div class="container" style="width:70%;">
-    <div class="jumbotron">
-        <h1>计算进展因子</h1>
+    <div class="jumbotron " style="background-color:#337ab7">
+        <h1 style="color:#ffffff">计算进展因子</h1>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -201,7 +199,7 @@
                     <p>在各个进展月上计算进展因子时使用的月的个数,如果最后几个进展月不满足窗口条件，补充nan；如果为None,则用所有数据计算</p>
                     </div>
 
-                    <button id="btn_cal_fact" class="btn btn-primary">计算进展因子</button>
+                    <button id="btn_cal_fact" class="btn btn-primary" style="float:right">计算进展因子</button>
                 </div>
 
 
@@ -214,7 +212,7 @@
                         原始进展因子
                     </h2>
                 </div>
-                <div class="panel-body" id="ori_factor">
+                <div class="panel-body" id="ori_factor"  style=" overflow-x:auto">
 
                 </div>
             </div>
@@ -224,8 +222,8 @@
 
 
 <div class="container" style="width:70%;">
-    <div class="jumbotron">
-        <h1>直接算IBNR</h1>
+    <div class="jumbotron " style="background-color:#337ab7">
+        <h1 style="color:#ffffff">IBNR</h1>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -251,7 +249,7 @@
                     <p>可以从上面表格复制过来。。。如果是None，会用1代替</p>
                     </div>
 
-                    <button id="btn_cal_res" class="btn btn-primary">计算估计的三角形和IBNR</button>
+                    <button id="btn_cal_res" class="btn btn-primary" style="float:right">计算估计的三角形和IBNR</button>
                 </div>
 
 
@@ -264,7 +262,7 @@
                         结果
                     </h2>
                 </div>
-                <div class="panel-body" id="result">
+                <div class="panel-body" id="result"  style=" overflow-x:auto">
 
                 </div>
             </div>
@@ -274,8 +272,8 @@
 
 
 <div class="container" style="width:70%;">
-    <div class="jumbotron">
-        <h1>平均费用</h1>
+    <div class="jumbotron " style="background-color:#337ab7">
+        <h1 style="color:#ffffff">平均费用</h1>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -297,7 +295,7 @@
                     <p>在各个进展月上计算平均费用使用的月的个数,如果最后几个进展月不满足窗口条件，补充nan；如果为None,则用所有数据计算</p>
                     </div>
 
-                    <button id="btn_average_fee" class="btn btn-primary">计算平均费用</button>
+                    <button id="btn_average_fee" class="btn btn-primary" style="float:right">计算平均费用</button>
                 </div>
 
 
@@ -310,7 +308,7 @@
                         结果
                     </h2>
                 </div>
-                <div class="panel-body" id="result_averagefee">
+                <div class="panel-body" id="result_averagefee"  style=" overflow-x:auto">
 
                 </div>
             </div>
@@ -319,8 +317,8 @@
 </div>
 
 <div class="container" style="width:70%;">
-    <div class="jumbotron">
-        <h1>平均费用算IBNR</h1>
+    <div class="jumbotron " style="background-color:#337ab7">
+        <h1 style="color:#ffffff">平均费用算IBNR</h1>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -342,7 +340,7 @@
                     <p>可以直接复制上面的平均费用，如果有None，则会用出现None之前的所有费用里最大的代替</p>
                     </div>
 
-                    <button id="btn_cal_res_final" class="btn btn-primary">计算结果</button>
+                    <button id="btn_cal_res_final" class="btn btn-primary" style="float:right">计算结果</button>
                 </div>
 
 
@@ -355,7 +353,7 @@
                         结果
                     </h2>
                 </div>
-                <div class="panel-body" id="result_af_final">
+                <div class="panel-body" id="result_af_final"  style=" overflow-x:auto">
 
                 </div>
             </div>
