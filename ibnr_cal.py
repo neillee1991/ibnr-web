@@ -52,20 +52,26 @@ def cal_tri(local_path, start_date, end_date):
     acc_ct = get_acc_triangle(ct)
     acc_ft = get_acc_triangle(ft)
 
+    preview_t=get_count_triangle(acc_ct)
+
+
+
     ct_html = ct.to_html(header="true", table_id="ct", classes='table table-condensed', float_format='%.0f')
     acc_ct_html = acc_ct.to_html(header="true", table_id="acc_ct", classes='table table-condensed', float_format='%.0f')
     ft_html = ft.to_html(header="true", table_id="ft", classes='table table-condensed', float_format='%.0f')
     acc_ft_html = acc_ft.to_html(header="true", table_id="acc_ft", classes='table table-condensed', float_format='%.0f')
-    print(table_beaty(ct_html,"件数"))
+    preview_t_html=preview_t.to_html(header="true", table_id="preview_t", classes='table table-condensed', float_format='%.4f')
+
 
     tables = [table_beaty(ct_html,"件数"),
               table_beaty(acc_ct_html,"累积件数"),
               table_beaty(ft_html,"费用"),
-              table_beaty(acc_ft_html,"累积费用")]
+              table_beaty(acc_ft_html,"累积费用"),
+              table_beaty(preview_t_html,"件数逐月")]
     return tables
 
 
-def cal_factor(local_path, start_date, end_date, cfactor_month_num, ffactor_month_num):
+def cal_factor(local_path, start_date, end_date, cfactor_month_nums, cfactor_month_nume,ffactor_month_nums, ffactor_month_nume):
     import datetime
     start = datetime.datetime.strptime(start_date, '%Y年%m月')
     end = datetime.datetime.strptime(end_date, '%Y年%m月')
@@ -80,18 +86,22 @@ def cal_factor(local_path, start_date, end_date, cfactor_month_num, ffactor_mont
     _, ft = get_triangle(df, 'occur_month', 'acc_close', 'pay_amnt', sum)
     acc_ct = get_acc_triangle(ct)
     acc_ft = get_acc_triangle(ft)
-    if cfactor_month_num in ['', 'None', 'none', 'NONE']:
-        cfactor_month_num = None
+    if cfactor_month_nums in ['', 'None', 'none', 'NONE'] or cfactor_month_nume in ['', 'None', 'none', 'NONE']:
+        cfactor_month_nums = None
+        cfactor_month_nume = None
     else:
-        cfactor_month_num = int(cfactor_month_num)
+        cfactor_month_nums = int(cfactor_month_nums)
+        cfactor_month_nume = int(cfactor_month_nume)
 
-    if ffactor_month_num in ['', 'None', 'none', 'NONE']:
-        ffactor_month_num = None
+    if ffactor_month_nums in ['', 'None', 'none', 'NONE'] or ffactor_month_nume in ['', 'None', 'none', 'NONE']:
+        ffactor_month_nums= None
+        ffactor_month_nume = None
     else:
-        ffactor_month_num = int(ffactor_month_num)
+        ffactor_month_nums = int(ffactor_month_nums)
+        ffactor_month_nume = int(ffactor_month_nume)
 
-    c_factor = get_factor(acc_ct, factor_month_num=cfactor_month_num)
-    f_factor = get_factor(acc_ft, factor_month_num=ffactor_month_num)
+    c_factor = get_factor(acc_ct, factor_month_nums=cfactor_month_nums,factor_month_nume=cfactor_month_nume)
+    f_factor = get_factor(acc_ft, factor_month_nums=ffactor_month_nums,factor_month_nume=ffactor_month_nume)
 
     ret_c_factor = DataFrame([c_factor], columns=range(len(c_factor)), index=['件数']).to_html(header="true",
                                                                                              table_id="ret_c_factor",
@@ -239,6 +249,21 @@ def method_2_res(local_path, start_date, end_date, cfactor_adj, average_fee_adj)
 
 # basic function
 
+def get_count_triangle(df):
+    '''
+    计算件数逐月的三角形
+    :param df: 累计件数三角形
+    :return:
+    '''
+
+    res_df=df.copy()
+    for i in range(1,res_df.shape[1]):
+        res_df.iloc[:,i]=df.iloc[:,i]/df.iloc[:,i-1]
+    import numpy as np
+    res_df.iloc[:,0]=np.nan
+    return res_df
+
+
 def get_triangle(df, index, columns, values, aggfunc):
     '''
     生成三角标准的三角形
@@ -288,7 +313,7 @@ def get_acc_triangle(triangle):
     return acc_triangle
 
 
-def get_factor(acc_triangle, factor_month_num=None):
+def get_factor(acc_triangle, factor_month_nums=None,factor_month_nume=None):
     '''
     根据累计三角形产生因子
     :param acc_triangle:累计三角形，标准N*N形状
@@ -296,7 +321,7 @@ def get_factor(acc_triangle, factor_month_num=None):
     :return:
     '''
     factor = []
-    if factor_month_num is None:
+    if factor_month_nums is None and factor_month_nume is None:
         for i in range(1, acc_triangle.shape[1]):
             asum = acc_triangle.iloc[:, i].sum()
             bsum = acc_triangle.iloc[:-i, i - 1].sum()
@@ -305,9 +330,9 @@ def get_factor(acc_triangle, factor_month_num=None):
             else:
                 factor.append(asum / bsum)
     else:
-        for i in range(1, acc_triangle.shape[1] - factor_month_num + 1):
-            asum = acc_triangle.iloc[len(acc_triangle) - i - factor_month_num:len(acc_triangle) - i, i].sum()
-            bsum = acc_triangle.iloc[len(acc_triangle) - i - factor_month_num:len(acc_triangle) - i, i - 1].sum()
+        for i in range(1, acc_triangle.shape[1] + factor_month_nums + 1):
+            asum = acc_triangle.iloc[len(acc_triangle) - i + factor_month_nums:len(acc_triangle) - i + factor_month_nume+1, i].sum()
+            bsum = acc_triangle.iloc[len(acc_triangle) - i + factor_month_nums:len(acc_triangle) - i + factor_month_nume+1, i - 1].sum()
             if bsum == 0:
                 factor.append(0)
             else:
@@ -315,6 +340,7 @@ def get_factor(acc_triangle, factor_month_num=None):
         if len(factor) < len(acc_triangle):
             factor += [None for _ in range(len(acc_triangle) - len(factor) - 1)]
     return factor
+
 
 
 def get_est_triangle(triangle, acc_triangle, factor):

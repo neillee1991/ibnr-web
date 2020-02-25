@@ -184,19 +184,27 @@
                 </div>
                 <div class="panel-body">
                     <div class="input-group">
-                        <span class="input-group-addon">件数窗口长度</span>
-                        <input type="text" class="form-control" id="cfactor_month_num" aria-describedby="basic-addon3"
-                               value="4">
+                        <span class="input-group-addon">件数窗口起始</span>
+                        <input type="text" class="form-control" id="cfactor_month_nums" aria-describedby="basic-addon3"
+                               value="-6">
+                        <span class="input-group-addon">件数窗口终止</span>
+                        <input type="text" class="form-control" id="cfactor_month_nume" aria-describedby="basic-addon3"
+                               value="-2">
+
                     </div>
                     <br>
                     <div class="input-group">
-                        <span class="input-group-addon">费用窗口长度</span>
-                        <input type="text" class="form-control" id="ffactor_month_num" aria-describedby="basic-addon3"
-                               value="4">
+                        <span class="input-group-addon">费用窗口起始</span>
+                        <input type="text" class="form-control" id="ffactor_month_nums" aria-describedby="basic-addon3"
+                               value="-6">
+                        <span class="input-group-addon">费用窗口终止</span>
+                        <input type="text" class="form-control" id="ffactor_month_nume" aria-describedby="basic-addon3"
+                               value="-2">
+
                     </div>
                     <br>
                     <div class="alert alert-info m-auto" role="alert">
-                    <p>在各个进展月上计算进展因子时使用的月的个数,如果最后几个进展月不满足窗口条件，补充nan；如果为None,则用所有数据计算</p>
+                    <p>在各个进展月上计算进展因子时使用的月的窗口定义,如果最后几个进展月不满足窗口条件，补充nan；如果全为None,则用所有数据计算；两端闭区间;-1指每进展月的最后一个非空的数据。</p>
                     </div>
 
                     <button id="btn_cal_fact" class="btn btn-primary" style="float:right">计算进展因子</button>
@@ -447,13 +455,16 @@
         var filename = document.upload.file.files[0].name;
         var date_start = $('#date_start').val();
         var date_end = $('#date_end').val();
-        var cfactor_month_num = $('#cfactor_month_num').val();
-        var ffactor_month_num = $('#ffactor_month_num').val();
+        var cfactor_month_nums = $('#cfactor_month_nums').val();
+        var cfactor_month_nume = $('#cfactor_month_nume').val();
+        var ffactor_month_nums = $('#ffactor_month_nums').val();
+        var ffactor_month_nume = $('#ffactor_month_nume').val();
         var loading = parent.layer.load();
 
         var data = JSON.stringify({
             "filename": filename, "date_start": date_start, "date_end": date_end,
-            "cfactor_month_num": cfactor_month_num, "ffactor_month_num": ffactor_month_num
+            "cfactor_month_nums": cfactor_month_nums, "ffactor_month_nums": ffactor_month_nums,
+            "cfactor_month_nume": cfactor_month_nume, "ffactor_month_nume": ffactor_month_nume
         });
         $.ajax(
             {

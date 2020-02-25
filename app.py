@@ -72,10 +72,12 @@ def calfactor():
     filename = data['filename']
     date_start = data['date_start']
     date_end = data['date_end']
-    cfactor_month_num = data['cfactor_month_num']
-    ffactor_month_num = data['ffactor_month_num']
+    cfactor_month_nums = data['cfactor_month_nums']
+    ffactor_month_nums = data['ffactor_month_nums']
+    cfactor_month_nume = data['cfactor_month_nume']
+    ffactor_month_nume = data['ffactor_month_nume']
     local_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    tables = cal_factor(local_path, date_start, date_end, cfactor_month_num, ffactor_month_num)
+    tables = cal_factor(local_path, date_start, date_end, cfactor_month_nums, cfactor_month_nume,ffactor_month_nums, ffactor_month_nume)
     ret = ''
     for t in tables:
         ret += t
