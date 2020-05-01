@@ -1,5 +1,13 @@
+# -*- coding: UTF-8 -*-
+
 import pandas as pd
 from pandas import DataFrame
+
+import locale
+import time
+locale.setlocale(locale.LC_CTYPE, 'chinese')
+
+
 
 def table_beaty(html,table_name):
 

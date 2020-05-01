@@ -1,9 +1,16 @@
+# -*- coding: UTF-8 -*-
+
 from flask import Flask
 from flask import render_template
 from flask import Flask, flash, render_template, request, redirect, jsonify
 from werkzeug.utils import secure_filename
 import os
 from ibnr_cal import *
+
+
+import locale
+import time
+locale.setlocale(locale.LC_CTYPE, 'chinese')
 
 UPLOAD_FOLDER = '.\\tmp'
 ALLOWED_EXTENSIONS = set(['xlsx', 'csv', 'xls'])
